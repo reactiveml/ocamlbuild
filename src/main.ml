@@ -184,6 +184,7 @@ let proceed () =
 
   Hooks.call_hook Hooks.Before_rules;
   Ocaml_specific.init ();
+  Rml_specific.init ();
   Hooks.call_hook Hooks.After_rules;
 
   Sys.chdir options_wd;

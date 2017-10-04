@@ -381,6 +381,8 @@ module type OPTIONS = sig
   val include_dirs : string list ref
   val exclude_dirs : string list ref
   val nothing_should_be_rebuilt : bool ref
+  val rmlc : command_spec ref
+  val rmldep : command_spec ref
   val ocamlc : command_spec ref
   val plugin_ocamlc : command_spec ref
   val ocamlopt : command_spec ref
@@ -814,6 +816,25 @@ rule "target files"
              tag name. *)
   val ocaml_lib :
     ?extern:bool ->
+    ?byte:bool ->
+    ?native:bool ->
+    ?dir:Pathname.t ->
+    ?tag_name:string ->
+    Pathname.t -> unit
+
+  (** [rml_lib <options> library_pathname]
+      Declare an ocaml library.
+
+      Example: rml_lib "foo/bar"
+        This will setup the tag use_bar tag.
+        At link time it will include:
+          foo/bar.cma or foo/bar.cmxa
+        If you supply the ~dir:"boo" option -I boo
+          will be added at link and compile time.
+        Use ~extern:true for non-ocamlbuild handled libraries.
+        Use ~byte:false or ~native:false to disable byte or native mode.
+        Use ~tag_name:"usebar" to override the default tag name. *)
+  val rml_lib :
     ?byte:bool ->
     ?native:bool ->
     ?dir:Pathname.t ->

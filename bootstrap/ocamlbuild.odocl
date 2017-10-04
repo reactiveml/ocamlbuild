@@ -19,6 +19,7 @@ Solver
 Tags
 Tools
 Fda
+Rml_specific
 Ocaml_specific
 Ocaml_arch
 Ocamlbuild_where

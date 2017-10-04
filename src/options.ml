@@ -83,8 +83,11 @@ let mk_virtual_solvers =
 
 let () =
   mk_virtual_solvers
-    ["ocamlc"; "ocamlopt"; "ocamldep"; "ocamldoc";
+    ["rmlc"; "rmldep";
+    "ocamlc"; "ocamlopt"; "ocamldep"; "ocamldoc";
     "ocamlyacc"; "menhir"; "ocamllex"; "ocamlmklib"; "ocamlmktop"; "ocamlfind"]
+let rmlc = ref (V"RMLC")
+let rmldep = ref (V"RMLDEP")
 let ocamlc = ref (V"OCAMLC")
 let plugin_ocamlc = ref (V"OCAMLC")
 let ocamlopt = ref (V"OCAMLOPT")

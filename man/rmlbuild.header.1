@@ -10,14 +10,14 @@
 .\"*                                                                     *)
 .\"***********************************************************************)
 .\"
-.TH OCAMLBUILD 1
+.TH RMLBUILD 1
 
 .SH NAME
-ocamlbuild \- The OCaml project compilation tool
+rmlbuild \- Extension of ocamlbuild to build ReactiveML projects
 
 
 .SH SYNOPSIS
-.B ocamlbuild
+.B rmlbuild
 [
 .B \-Is \ dir1,...
 ]
@@ -45,14 +45,14 @@ ocamlbuild \- The OCaml project compilation tool
 
 .SH DESCRIPTION
 
-.BR ocamlbuild (1)
+.BR rmlbuild (1)
 orchestrates the compilation process of your OCaml project.  It is similar
 in function to
 .BR make (1)
 except that it is tailor-made to automatically compile most OCaml projects
 with very little user input.
 
-.BR ocamlbuild
+.BR rmlbuild
 should be invoked in the root of a clean project tree (e.g., with no leftover
 compilation files).  Given one or more targets to compile, it scans the required
 subdirectories to gather information about the various files present, running
@@ -63,7 +63,7 @@ its behaviour.
 Target names are very significant.
 
 .SH TARGET NAMES
-.BR ocamlbuild
+.BR rmlbuild
 uses a set of target naming conventions to select the kind of objects to
 produce.  Target names are of the form
 .BR base.extension
@@ -78,7 +78,7 @@ Of course extensions such as
 .BR .cma,
 .BR .cmi...
 map to their usual counterparts.  Here is a list of the most important
-.BR ocamlbuild \&-specific
+.BR rmlbuild \&-specific
 extensions:
 
 .TP 2i

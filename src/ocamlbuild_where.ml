@@ -23,7 +23,7 @@ let libdir = ref begin
        Filename.dir_sep is therefore not appropriate here. *)
     if lib_len < ocaml_lib_len
        || String.sub O.libdir_abs 0 ocaml_lib_len <> O.ocaml_libdir ^ "/" then
-      O.libdir, "ocamlbuild"
+      O.libdir, "rmlbuild"
     else
       (* https://github.com/ocaml/ocamlbuild/issues/69. Only use OCAMLLIB if
          the configured LIBDIR is a subdirectory (lexically) of OCAML_LIBDIR.
@@ -43,8 +43,8 @@ let libdir = ref begin
           String.sub O.libdir_abs ocaml_lib_len (lib_len - ocaml_lib_len)
           |> normalise_slashes
         in
-        Sys.getenv "OCAMLLIB", Filename.concat subroot "ocamlbuild"
-      with Not_found -> O.libdir, "ocamlbuild"
+        Sys.getenv "OCAMLLIB", Filename.concat subroot "rmlbuild"
+      with Not_found -> O.libdir, "rmlbuild"
   in
   Filename.concat root suffix
 end;;

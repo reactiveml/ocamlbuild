@@ -73,6 +73,7 @@ PACK_CMO= $(addprefix src/,\
   ocaml_compiler.cmo \
   ocaml_tools.cmo \
   ocaml_specific.cmo \
+  rml_specific.cmo \
   exit_codes.cmo \
   plugin.cmo \
   hooks.cmo \
@@ -198,19 +199,19 @@ beforedepend:: src/ocamlbuild_config.ml
 
 # man page
 
-man: man/ocamlbuild.1
+man: man/rmlbuild.1
 
-man/ocamlbuild.1: man/ocamlbuild.header.1 man/ocamlbuild.options.1 man/ocamlbuild.footer.1
-	cat $^ > man/ocamlbuild.1
+man/rmlbuild.1: man/rmlbuild.header.1 man/rmlbuild.options.1 man/rmlbuild.footer.1
+	cat $^ > man/rmlbuild.1
 
-man/ocamlbuild.options.1: man/options_man.byte
-	./man/options_man.byte > man/ocamlbuild.options.1
+man/rmlbuild.options.1: man/options_man.byte
+	./man/options_man.byte > man/rmlbuild.options.1
 
 clean::
-	rm -f man/ocamlbuild.options.1
+	rm -f man/rmlbuild.options.1
 
 distclean::
-	rm -f man/ocamlbuild.1
+	rm -f man/rmlbuild.1
 
 man/options_man.byte: src/ocamlbuild_pack.cmo
 	$(OCAMLC) $^ -I src man/options_man.ml -o man/options_man.byte
@@ -250,15 +251,15 @@ clean::
 
 install-bin-byte:
 	mkdir -p $(INSTALL_BINDIR)
-	$(CP) ocamlbuild.byte $(INSTALL_BINDIR)/ocamlbuild.byte$(EXE)
+	$(CP) ocamlbuild.byte $(INSTALL_BINDIR)/rmlbuild.byte$(EXE)
 ifneq ($(OCAML_NATIVE), true)
-	$(CP) ocamlbuild.byte $(INSTALL_BINDIR)/ocamlbuild$(EXE)
+	$(CP) ocamlbuild.byte $(INSTALL_BINDIR)/rmlbuild$(EXE)
 endif
 
 install-bin-native:
 	mkdir -p $(INSTALL_BINDIR)
-	$(CP) ocamlbuild.native $(INSTALL_BINDIR)/ocamlbuild$(EXE)
-	$(CP) ocamlbuild.native $(INSTALL_BINDIR)/ocamlbuild.native$(EXE)
+	$(CP) ocamlbuild.native $(INSTALL_BINDIR)/rmlbuild$(EXE)
+	$(CP) ocamlbuild.native $(INSTALL_BINDIR)/rmlbuild.native$(EXE)
 
 ifeq ($(OCAML_NATIVE), true)
 install-bin: install-bin-byte install-bin-native
@@ -267,44 +268,44 @@ install-bin: install-bin-byte
 endif
 
 install-bin-opam:
-	echo 'bin: [' >> ocamlbuild.install
-	echo '  "ocamlbuild.byte" {"ocamlbuild.byte"}' >> ocamlbuild.install
+	echo 'bin: [' >> rmlbuild.install
+	echo '  "rmlbuild.byte" {"rmlbuild.byte"}' >> rmlbuild.install
 ifeq ($(OCAML_NATIVE), true)
-	echo '  "ocamlbuild.native" {"ocamlbuild.native"}' >> ocamlbuild.install
-	echo '  "ocamlbuild.native" {"ocamlbuild"}' >> ocamlbuild.install
+	echo '  "rmlbuild.native" {"rmlbuild.native"}' >> rmlbuild.install
+	echo '  "rmlbuild.native" {"rmlbuild"}' >> rmlbuild.install
 else
-	echo '  "ocamlbuild.byte" {"ocamlbuild"}' >> ocamlbuild.install
+	echo '  "rmlbuild.byte" {"rmlbuild"}' >> rmlbuild.install
 endif
-	echo ']' >> ocamlbuild.install
-	echo >> ocamlbuild.install
+	echo ']' >> rmlbuild.install
+	echo >> rmlbuild.install
 
 install-lib-basics:
-	mkdir -p $(INSTALL_LIBDIR)/ocamlbuild
-	$(CP) META $(INSTALL_SIGNATURES) $(INSTALL_LIBDIR)/ocamlbuild
+	mkdir -p $(INSTALL_LIBDIR)/rmlbuild
+	$(CP) META $(INSTALL_SIGNATURES) $(INSTALL_LIBDIR)/rmlbuild
 
 install-lib-basics-opam:
-	echo '  "opam"' >> ocamlbuild.install
-	echo '  "META"' >> ocamlbuild.install
+	echo '  "opam"' >> rmlbuild.install
+	echo '  "META"' >> rmlbuild.install
 	for lib in $(INSTALL_SIGNATURES); do \
-	  echo "  \"$$lib\" {\"$$(basename $$lib)\"}" >> ocamlbuild.install; \
+	  echo "  \"$$lib\" {\"$$(basename $$lib)\"}" >> rmlbuild.install; \
 	done
 
 install-lib-byte:
-	mkdir -p $(INSTALL_LIBDIR)/ocamlbuild
-	$(CP) $(INSTALL_LIB) $(INSTALL_LIBDIR)/ocamlbuild
+	mkdir -p $(INSTALL_LIBDIR)/rmlbuild
+	$(CP) $(INSTALL_LIB) $(INSTALL_LIBDIR)/rmlbuild
 
 install-lib-byte-opam:
 	for lib in $(INSTALL_LIB); do \
-	  echo "  \"$$lib\" {\"$$(basename $$lib)\"}" >> ocamlbuild.install; \
+	  echo "  \"$$lib\" {\"$$(basename $$lib)\"}" >> rmlbuild.install; \
 	done
 
 install-lib-native:
-	mkdir -p $(INSTALL_LIBDIR)/ocamlbuild
-	$(CP) $(INSTALL_LIB_OPT) $(INSTALL_LIBDIR)/ocamlbuild
+	mkdir -p $(INSTALL_LIBDIR)/rmlbuild
+	$(CP) $(INSTALL_LIB_OPT) $(INSTALL_LIBDIR)/rmlbuild
 
 install-lib-native-opam:
 	for lib in $(INSTALL_LIB_OPT); do \
-	  echo "  \"$$lib\" {\"$$(basename $$lib)\"}" >> ocamlbuild.install; \
+	  echo "  \"$$lib\" {\"$$(basename $$lib)\"}" >> rmlbuild.install; \
 	done
 
 ifeq ($(OCAML_NATIVE), true)
@@ -315,61 +316,61 @@ endif
 
 install-lib-findlib:
 ifeq ($(OCAML_NATIVE), true)
-	ocamlfind install ocamlbuild \
+	ocamlfind install rmlbuild \
 	  META $(INSTALL_SIGNATURES) $(INSTALL_LIB) $(INSTALL_LIB_OPT)
 else
-	ocamlfind install ocamlbuild \
+	ocamlfind install rmlbuild \
 	  META $(INSTALL_SIGNATURES) $(INSTALL_LIB)
 endif
 
 install-lib-opam:
-	echo 'lib: [' >> ocamlbuild.install
+	echo 'lib: [' >> rmlbuild.install
 	$(MAKE) install-lib-basics-opam
 	$(MAKE) install-lib-byte-opam
 ifeq ($(OCAML_NATIVE), true)
 	$(MAKE) install-lib-native-opam
 endif
-	echo ']' >> ocamlbuild.install
-	echo >> ocamlbuild.install
+	echo ']' >> rmlbuild.install
+	echo >> rmlbuild.install
 
 install-man:
 	mkdir -p $(INSTALL_MANDIR)/man1
-	cp man/ocamlbuild.1 $(INSTALL_MANDIR)/man1/ocamlbuild.1
+	cp man/rmlbuild.1 $(INSTALL_MANDIR)/man1/rmlbuild.1
 
 install-man-opam:
-	echo 'man: [' >> ocamlbuild.install
-	echo '  "man/ocamlbuild.1" {"man1/ocamlbuild.1"}' >> ocamlbuild.install
-	echo ']' >> ocamlbuild.install
-	echo >> ocamlbuild.install
+	echo 'man: [' >> rmlbuild.install
+	echo '  "man/rmlbuild.1" {"man1/rmlbuild.1"}' >> rmlbuild.install
+	echo ']' >> rmlbuild.install
+	echo >> rmlbuild.install
 
 install-doc-opam:
-	echo 'doc: [' >> ocamlbuild.install
-	echo '  "LICENSE"' >> ocamlbuild.install
-	echo '  "Changes"' >> ocamlbuild.install
-	echo '  "Readme.md"' >> ocamlbuild.install
-	echo ']' >> ocamlbuild.install
+	echo 'doc: [' >> rmlbuild.install
+	echo '  "LICENSE"' >> rmlbuild.install
+	echo '  "Changes"' >> rmlbuild.install
+	echo '  "Readme.md"' >> rmlbuild.install
+	echo ']' >> rmlbuild.install
 
 uninstall-bin:
-	rm $(BINDIR)/ocamlbuild
-	rm $(BINDIR)/ocamlbuild.byte
+	rm $(BINDIR)/rmlbuild
+	rm $(BINDIR)/rmlbuild.byte
 ifeq ($(OCAML_NATIVE), true)
-	rm $(BINDIR)/ocamlbuild.native
+	rm $(BINDIR)/rmlbuild.native
 endif
 
 uninstall-lib-basics:
-	rm $(LIBDIR)/ocamlbuild/META
+	rm $(LIBDIR)/rmlbuild/META
 	for lib in $(INSTALL_SIGNATURES); do \
-	  rm $(LIBDIR)/ocamlbuild/`basename $$lib`;\
+	  rm $(LIBDIR)/rmlbuild/`basename $$lib`;\
 	done
 
 uninstall-lib-byte:
 	for lib in $(INSTALL_LIB); do\
-	  rm $(LIBDIR)/ocamlbuild/`basename $$lib`;\
+	  rm $(LIBDIR)/rmlbuild/`basename $$lib`;\
 	done
 
 uninstall-lib-native:
 	for lib in $(INSTALL_LIB_OPT); do\
-	  rm $(LIBDIR)/ocamlbuild/`basename $$lib`;\
+	  rm $(LIBDIR)/rmlbuild/`basename $$lib`;\
 	done
 
 uninstall-lib:
@@ -377,14 +378,14 @@ uninstall-lib:
 ifeq ($(OCAML_NATIVE), true)
 	$(MAKE) uninstall-lib-native
 endif
-	ls $(LIBDIR)/ocamlbuild # for easier debugging if rmdir fails
-	rmdir $(LIBDIR)/ocamlbuild
+	ls $(LIBDIR)/rmlbuild # for easier debugging if rmdir fails
+	rmdir $(LIBDIR)/rmlbuild
 
 uninstall-lib-findlib:
-	ocamlfind remove ocamlbuild
+	ocamlfind remove rmlbuild
 
 uninstall-man:
-	rm $(INSTALL_MANDIR)/man1/ocamlbuild.1
+	rm $(INSTALL_MANDIR)/man1/rmlbuild.1
 
 install: check-if-preinstalled
 	$(MAKE) install-bin install-lib install-man
@@ -395,11 +396,11 @@ findlib-install: check-if-preinstalled
 findlib-uninstall: uninstall-bin uninstall-lib-findlib
 
 opam-install: check-if-preinstalled
-	$(MAKE) ocamlbuild.install
+	$(MAKE) rmlbuild.install
 
-ocamlbuild.install:
-	rm -f ocamlbuild.install
-	touch ocamlbuild.install
+rmlbuild.install:
+	rm -f rmlbuild.install
+	touch rmlbuild.install
 	$(MAKE) install-bin-opam
 	$(MAKE) install-lib-opam
 	$(MAKE) install-man-opam
@@ -407,9 +408,9 @@ ocamlbuild.install:
 
 check-if-preinstalled:
 ifeq ($(CHECK_IF_PREINSTALLED), true)
-	if test -d $(shell ocamlc -where)/ocamlbuild; then\
-	  >&2 echo "ERROR: Preinstalled ocamlbuild detected at"\
-	       "$(shell ocamlc -where)/ocamlbuild";\
+	if test -d $(shell ocamlc -where)/rmlbuild; then\
+	  >&2 echo "ERROR: Preinstalled rmlbuild detected at"\
+	       "$(shell ocamlc -where)/rmlbuild";\
 	  >&2 echo "Installation aborted; if you want to bypass this"\
 	        "safety check, pass CHECK_IF_PREINSTALLED=false to make";\
 	  exit 2;\
@@ -439,8 +440,11 @@ endif
 	rm -f test/test2/vivi.ml
 
 distclean::
-	rm -f ocamlbuild.byte ocamlbuild.native
-	rm -f ocamlbuild.install
+	rm -f rmlbuild.byte rmlbuild.native
+	rm -f rmlbuild.install
+
+cleanall: distclean
+	rm -f *~ */*~
 
 # The dependencies
 

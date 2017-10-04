@@ -19,7 +19,7 @@
 *.out.dSYM
 /tmp/
 
-ocamlbuild.install
+rmlbuild.install
 Makefile.config
 
 /bootstrap/src
@@ -31,6 +31,6 @@ Makefile.config
 /ocamlbuild.byte
 /ocamlbuild.native
 
-/man/ocamlbuild.1
-/man/ocamlbuild.options.1
+/man/rmlbuild.1
+/man/rmlbuild.options.1
 /man/options_man.byte

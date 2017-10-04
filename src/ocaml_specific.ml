@@ -425,7 +425,7 @@ rule "ocaml dependencies mli"
   (Ocaml_tools.ocamldep_command "%.mli" "%.mli.depends");;
 
 rule "ocamllex"
-  ~prod:"%.ml"
+  ~prod:"%.rml"
   ~dep:"%.mll"
   (Ocaml_tools.ocamllex "%.mll");;
 
