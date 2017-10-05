@@ -1,18 +1,19 @@
 opam-version: "1.2"
-name: "ocamlbuild"
-maintainer: "Gabriel Scherer <gabriel.scherer@gmail.com>"
+name: "rmlbuild"
+maintainer: "Louis Mandel <louis.mandel@reactiveml.org>"
 version: "dev"
 
 authors: [
   "Nicolas Pouillard"
   "Berke Durak"
+  "Cedric Pasteur"
+  "Louis Mandel"
 ]
 
 license: "LGPL-2 with OCaml linking exception"
-dev-repo: "https://github.com/ocaml/ocamlbuild.git"
-homepage: "https://github.com/ocaml/ocamlbuild/"
-bug-reports: "https://github.com/ocaml/ocamlbuild/issues"
-doc: "https://github.com/ocaml/ocamlbuild/blob/master/manual/manual.adoc"
+dev-repo: "https://github.com/reactiveml/rmlbuild.git"
+homepage: "https://github.com/reactiveml/rmlbuild/"
+bug-reports: "https://github.com/reactiveml/rmlbuild/issues"
 
 build: [
   [make "-f" "configure.make" "all"

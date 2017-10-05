@@ -269,12 +269,12 @@ endif
 
 install-bin-opam:
 	echo 'bin: [' >> rmlbuild.install
-	echo '  "rmlbuild.byte" {"rmlbuild.byte"}' >> rmlbuild.install
+	echo '  "ocamlbuild.byte" {"rmlbuild.byte"}' >> rmlbuild.install
 ifeq ($(OCAML_NATIVE), true)
-	echo '  "rmlbuild.native" {"rmlbuild.native"}' >> rmlbuild.install
-	echo '  "rmlbuild.native" {"rmlbuild"}' >> rmlbuild.install
+	echo '  "ocamlbuild.native" {"rmlbuild.native"}' >> rmlbuild.install
+	echo '  "ocamlbuild.native" {"rmlbuild"}' >> rmlbuild.install
 else
-	echo '  "rmlbuild.byte" {"rmlbuild"}' >> rmlbuild.install
+	echo '  "ocamlbuild.byte" {"rmlbuild"}' >> rmlbuild.install
 endif
 	echo ']' >> rmlbuild.install
 	echo >> rmlbuild.install
