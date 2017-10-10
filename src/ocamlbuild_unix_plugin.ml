@@ -14,7 +14,7 @@
 
 (* Original author: Nicolas Pouillard *)
 open Format
-open Ocamlbuild_pack
+open Rmlbuild_pack
 open My_unix
 
 let report_error f =

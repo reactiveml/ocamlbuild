@@ -13,4 +13,4 @@
 
 
 (* Original author: Nicolas Pouillard *)
-Ocamlbuild_pack.Main.main ();;
+Rmlbuild_pack.Main.main ();;

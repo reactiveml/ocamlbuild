@@ -1,4 +1,4 @@
-open Ocamlbuild_pack
+open Rmlbuild_pack
 
 let options = Options.spec ()
 

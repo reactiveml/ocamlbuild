@@ -11,8 +11,8 @@
 (*                                                                     *)
 (***********************************************************************)
 
-include Ocamlbuild_pack.Signatures.PLUGIN
-  with module Pathname = Ocamlbuild_pack.Pathname
-   and module Outcome  = Ocamlbuild_pack.My_std.Outcome
-   and module Tags     = Ocamlbuild_pack.Tags
-   and module Command  = Ocamlbuild_pack.Command
+include Rmlbuild_pack.Signatures.PLUGIN
+  with module Pathname = Rmlbuild_pack.Pathname
+   and module Outcome  = Rmlbuild_pack.My_std.Outcome
+   and module Tags     = Rmlbuild_pack.Tags
+   and module Command  = Rmlbuild_pack.Command

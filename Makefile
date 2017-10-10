@@ -91,15 +91,15 @@ EXTRA_CMX=$(EXTRA_CMO:.cmo=.cmx)
 EXTRA_CMI=$(EXTRA_CMO:.cmo=.cmi)
 
 INSTALL_LIB=\
-  src/ocamlbuildlib.cma \
+  src/rmlbuildlib.cma \
   src/ocamlbuild.cmo \
-  src/ocamlbuild_pack.cmi \
+  src/rmlbuild_pack.cmi \
   $(EXTRA_CMO:.cmo=.cmi)
 
 INSTALL_LIB_OPT=\
-  src/ocamlbuildlib.cmxa src/ocamlbuildlib$(EXT_LIB) \
+  src/rmlbuildlib.cmxa src/rmlbuildlib$(EXT_LIB) \
   src/ocamlbuild.cmx src/ocamlbuild$(EXT_OBJ) \
-  src/ocamlbuild_pack.cmx \
+  src/rmlbuild_pack.cmx \
   $(EXTRA_CMO:.cmo=.cmx) $(EXTRA_CMO:.cmo=$(EXT_OBJ))
 
 INSTALL_LIBDIR=$(DESTDIR)$(LIBDIR)
@@ -117,9 +117,9 @@ else
 all: byte man
 endif
 
-byte: ocamlbuild.byte src/ocamlbuildlib.cma
+byte: ocamlbuild.byte src/rmlbuildlib.cma
                  # ocamlbuildlight.byte ocamlbuildlightlib.cma
-native: ocamlbuild.native src/ocamlbuildlib.cmxa
+native: ocamlbuild.native src/rmlbuildlib.cmxa
 
 allopt: all # compatibility alias
 
@@ -127,24 +127,24 @@ distclean:: clean
 
 # The executables
 
-ocamlbuild.byte: src/ocamlbuild_pack.cmo $(EXTRA_CMO) src/ocamlbuild.cmo
+ocamlbuild.byte: src/rmlbuild_pack.cmo $(EXTRA_CMO) src/ocamlbuild.cmo
 	$(OCAMLC) $(LINKFLAGS) -o $@ unix.cma $^
 
-ocamlbuildlight.byte: src/ocamlbuild_pack.cmo src/ocamlbuildlight.cmo
+ocamlbuildlight.byte: src/rmlbuild_pack.cmo src/ocamlbuildlight.cmo
 	$(OCAMLC) $(LINKFLAGS) -o $@ $^
 
-ocamlbuild.native: src/ocamlbuild_pack.cmx $(EXTRA_CMX) src/ocamlbuild.cmx
+ocamlbuild.native: src/rmlbuild_pack.cmx $(EXTRA_CMX) src/ocamlbuild.cmx
 	$(OCAMLOPT) $(LINKFLAGS) -o $@ unix.cmxa $^
 
 # The libraries
 
-src/ocamlbuildlib.cma: src/ocamlbuild_pack.cmo $(EXTRA_CMO)
+src/rmlbuildlib.cma: src/rmlbuild_pack.cmo $(EXTRA_CMO)
 	$(OCAMLC) -a -o $@ $^
 
-src/ocamlbuildlightlib.cma: src/ocamlbuild_pack.cmo src/ocamlbuildlight.cmo
+src/rmlbuildlightlib.cma: src/rmlbuild_pack.cmo src/ocamlbuildlight.cmo
 	$(OCAMLC) -a -o $@ $^
 
-src/ocamlbuildlib.cmxa: src/ocamlbuild_pack.cmx $(EXTRA_CMX)
+src/rmlbuildlib.cmxa: src/rmlbuild_pack.cmx $(EXTRA_CMX)
 	$(OCAMLOPT) -a -o $@ $^
 
 # The packs
@@ -152,19 +152,19 @@ src/ocamlbuildlib.cmxa: src/ocamlbuild_pack.cmx $(EXTRA_CMX)
 # Build artifacts are first placed into tmp/ to avoid a race condition
 # described in https://caml.inria.fr/mantis/view.php?id=4991.
 
-src/ocamlbuild_pack.cmo: $(PACK_CMO)
+src/rmlbuild_pack.cmo: $(PACK_CMO)
 	mkdir -p tmp
-	$(OCAMLC) -pack $^ -o tmp/ocamlbuild_pack.cmo
-	mv tmp/ocamlbuild_pack.cmi src/ocamlbuild_pack.cmi
-	mv tmp/ocamlbuild_pack.cmo src/ocamlbuild_pack.cmo
+	$(OCAMLC) -pack $^ -o tmp/rmlbuild_pack.cmo
+	mv tmp/rmlbuild_pack.cmi src/rmlbuild_pack.cmi
+	mv tmp/rmlbuild_pack.cmo src/rmlbuild_pack.cmo
 
-src/ocamlbuild_pack.cmi: src/ocamlbuild_pack.cmo
+src/rmlbuild_pack.cmi: src/rmlbuild_pack.cmo
 
-src/ocamlbuild_pack.cmx: $(PACK_CMX)
+src/rmlbuild_pack.cmx: $(PACK_CMX)
 	mkdir -p tmp
-	$(OCAMLOPT) -pack $^ -o tmp/ocamlbuild_pack.cmx
-	mv tmp/ocamlbuild_pack.cmx src/ocamlbuild_pack.cmx
-	mv tmp/ocamlbuild_pack$(EXT_OBJ) src/ocamlbuild_pack$(EXT_OBJ)
+	$(OCAMLOPT) -pack $^ -o tmp/rmlbuild_pack.cmx
+	mv tmp/rmlbuild_pack.cmx src/rmlbuild_pack.cmx
+	mv tmp/rmlbuild_pack$(EXT_OBJ) src/rmlbuild_pack$(EXT_OBJ)
 
 # The lexers
 
@@ -213,7 +213,7 @@ clean::
 distclean::
 	rm -f man/rmlbuild.1
 
-man/options_man.byte: src/ocamlbuild_pack.cmo
+man/options_man.byte: src/rmlbuild_pack.cmo
 	$(OCAMLC) $^ -I src man/options_man.ml -o man/options_man.byte
 
 clean::
@@ -426,7 +426,7 @@ endif
 	$(OCAMLC) $(COMPFLAGS) -c $<
 
 %.cmx: %.ml
-	$(OCAMLOPT) -for-pack Ocamlbuild_pack $(COMPFLAGS) -c $<
+	$(OCAMLOPT) -for-pack Rmlbuild_pack $(COMPFLAGS) -c $<
 
 clean::
 	rm -rf tmp/
@@ -451,9 +451,9 @@ cleanall: distclean
 depend: beforedepend
 	$(OCAMLDEP) -I src src/*.mli src/*.ml > .depend
 
-$(EXTRA_CMI): src/ocamlbuild_pack.cmi
-$(EXTRA_CMO): src/ocamlbuild_pack.cmo src/ocamlbuild_pack.cmi
-$(EXTRA_CMX): src/ocamlbuild_pack.cmx src/ocamlbuild_pack.cmi
+$(EXTRA_CMI): src/rmlbuild_pack.cmi
+$(EXTRA_CMO): src/rmlbuild_pack.cmo src/rmlbuild_pack.cmi
+$(EXTRA_CMX): src/rmlbuild_pack.cmx src/rmlbuild_pack.cmi
 
 include .depend
 
