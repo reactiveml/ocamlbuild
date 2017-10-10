@@ -1,6 +1,6 @@
 # Specification for the "ocamlbuild" library
 requires = "unix"
-version = "0.11.0-00"
+version = "NEXT_RELEASE"
 description = "rmlbuild support library"
 archive(byte) = "rmlbuildlib.cma"
 archive(native) = "rmlbuildlib.cmxa"

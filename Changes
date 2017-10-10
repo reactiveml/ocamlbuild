@@ -11,8 +11,13 @@ We also use PR#$N for pull requests.
 Changes breaking compatibility are marked with a "* " bullet instead
 of the usual "- ".
 
+NEXT_RELEASE:
+------------
+
+
 0.11.0-00 (10 Oct 2017):
------------------------
+------------------------
+
 - first independent release of rmlbuild.
 
 changes from dev branch of ocamlbuild:

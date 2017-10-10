@@ -1,7 +1,7 @@
 opam-version: "1.2"
 name: "rmlbuild"
 maintainer: "Louis Mandel <louis.mandel@reactiveml.org>"
-version: "0.11.0-00"
+version: "0.11.0-01-dev"
 
 authors: [
   "Nicolas Pouillard"
