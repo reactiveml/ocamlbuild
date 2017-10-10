@@ -179,7 +179,7 @@ let set_build_dir s =
     build_dir := s
 let spec = ref (
     let print_version () =
-      Printf.printf "ocamlbuild %s\n%!" Ocamlbuild_config.version; raise Exit_OK
+      Printf.printf "rmlbuild %s\n%!" Ocamlbuild_config.version; raise Exit_OK
     in
     let print_vnum () = print_endline Ocamlbuild_config.version; raise Exit_OK in
   Arg.align
