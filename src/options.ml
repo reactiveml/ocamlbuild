@@ -262,6 +262,8 @@ let spec = ref (
    "-install-bin-dir", Set_string Ocamlbuild_where.bindir, "<path> Set the install binary directory";
    "-where", Unit (fun () -> print_endline !Ocamlbuild_where.libdir; raise Exit_OK), " Display the install library directory";
    "-which", String (fun cmd -> print_endline (find_tool cmd); raise Exit_OK), "<command> Display path to the tool command";
+   "-rmlc", set_cmd rmlc, "<command> Set the ReactiveML compiler";
+   "-rmldep", set_cmd ocamldep, "<command> Set the ReactiveML dependency tool";
    "-ocamlc", set_cmd ocamlc, "<command> Set the OCaml bytecode compiler";
    "-plugin-ocamlc", set_cmd plugin_ocamlc, "<command> Set the OCaml bytecode compiler \
      used when building myocamlbuild.ml (only)";
