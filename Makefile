@@ -30,7 +30,7 @@ OCAMLLEX  ?= ocamllex
 endif
 
 CP        ?= cp
-COMPFLAGS ?= -w L -w R -w Z -I src -I +unix -safe-string -bin-annot
+COMPFLAGS ?= -w L -w R -w Z -I src -I +unix -safe-string -bin-annot -strict-sequence
 LINKFLAGS ?= -I +unix -I src
 
 PACK_CMO= $(addprefix src/,\
@@ -284,7 +284,7 @@ install-lib-basics:
 	$(CP) META $(INSTALL_SIGNATURES) $(INSTALL_LIBDIR)/rmlbuild
 
 install-lib-basics-opam:
-	echo '  "opam"' >> rmlbuild.install
+	echo '  "rmlbuild.opam" {"opam"}' >> rmlbuild.install
 	echo '  "META"' >> rmlbuild.install
 	for lib in $(INSTALL_SIGNATURES); do \
 	  echo "  \"$$lib\" {\"$$(basename $$lib)\"}" >> rmlbuild.install; \

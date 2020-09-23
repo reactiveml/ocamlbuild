@@ -365,13 +365,13 @@ rule "ocaml: mllib & cmx* & o* -> cmxa & a"
         see the rules producing a .cmxs from a .mllib or a .mldylib."
   (Ocaml_compiler.native_library_link_mllib "%.mllib" "%.cmxa");;
 
-rule "ocaml: mldylib & p.cmx* & p.o* -> p.cmxs & p.so"
-  ~prods:["%.p.cmxs"; x_p_dll]
+rule "ocaml: mldylib & p.cmx* & p.o* -> p.cmxs"
+  ~prods:["%.p.cmxs"]
   ~dep:"%.mldylib"
   (Ocaml_compiler.native_profile_shared_library_link_mldylib "%.mldylib" "%.p.cmxs");;
 
-rule "ocaml: mldylib & cmx* & o* -> cmxs & so"
-  ~prods:["%.cmxs"; x_dll]
+rule "ocaml: mldylib & cmx* & o* -> cmxs"
+  ~prods:["%.cmxs"]
   ~dep:"%.mldylib"
   ~doc:"Builds a .cmxs (native archive for dynamic linking) containing exactly \
         the modules listed in the corresponding .mldylib file."
@@ -391,13 +391,13 @@ rule "ocaml: cmx & o -> cmxa & a"
         transitivitely."
   (Ocaml_compiler.native_library_link "%.cmx" "%.cmxa");;
 
-rule "ocaml: p.cmxa & p.a -> p.cmxs & p.so"
-  ~prods:["%.p.cmxs"; x_p_dll]
+rule "ocaml: p.cmxa & p.a -> p.cmxs"
+  ~prods:["%.p.cmxs"]
   ~deps:["%.p.cmxa"]
   (Ocaml_compiler.native_shared_library_link ~tags:["profile";"linkall"] "%.p.cmxa" "%.p.cmxs");;
 
-rule "ocaml: cmxa -> cmxs & so"
-  ~prods:["%.cmxs"; x_dll]
+rule "ocaml: cmxa -> cmxs"
+  ~prods:["%.cmxs"]
   ~deps:["%.cmxa"]
   ~doc:"This rule allows to build a .cmxs from a .cmxa, to avoid having \
         to duplicate a .mllib file into a .mldylib."
@@ -676,7 +676,7 @@ let () =
        useful to pass -linkpkg when building archives for example
        (.cma and .cmxa); the "linkpkg" flag allows user to request it
        explicitly. *)
-    flag ["ocaml"; "link"; "linkpkg"] & A"-linkpkg";
+    flag ["ocaml"; "link"; "library"; "linkpkg"] & A"-linkpkg";
     pflag ["ocaml"; "link"] "dontlink" ~doc_param
           (fun pkg -> S[A"-dontlink"; A pkg]);
 
@@ -693,13 +693,19 @@ let () =
       ["c"; "compile"];
     ] in
 
-    (* tags package(X), predicate(X) and syntax(X) *)
+    (* tags package(X), predicate(X) and syntax(X), ppopt(X), ppxopt(X) *)
     List.iter begin fun tags ->
       pflag tags "package" ~doc_param (fun pkg -> S [A "-package"; A pkg]);
       pflag tags "predicate" ~doc_param:"archive"
         (fun pkg -> S [A "-predicates"; A pkg]);
-      if List.mem "ocaml" tags then
-        pflag tags "syntax" ~doc_param:"camlp4o" (fun pkg -> S [A "-syntax"; A pkg])
+      if List.mem "ocaml" tags then begin
+        pflag tags "syntax" ~doc_param:"camlp4o"
+          (fun pkg -> S [A "-syntax"; A pkg]);
+        pflag tags "ppopt" ~doc_param:"pparg"
+          (fun arg -> S [A "-ppopt"; A arg]);
+        pflag tags "ppxopt" ~doc_param:"package,arg"
+          (fun arg -> S [A "-ppxopt"; A arg]);
+      end;
     end all_tags
   end else begin
     try
@@ -878,6 +884,11 @@ flag ["ocaml"; "link"; "library"; "custom"; "byte"] (A "-custom");;
 flag ["ocaml"; "link"; "toplevel"; "custom"; "byte"] (A "-custom");;
 flag ["ocaml"; "compile"; "profile"; "native"] (A "-p");;
 
+flag ["ocamlmklib"; "linkall"] (A "-linkall");;
+flag ["ocamlmklib"; "custom"] (A "-custom");;
+flag ["ocamlmklib"; "failsafe"] (A "-failsafe");;
+flag ["ocamlmklib"; "debug"] (A "-g");;
+
 flag ["ocaml"; "compile"; "no_alias_deps";] (A "-no-alias-deps");;
 flag ["ocaml"; "infer_interface"; "no_alias_deps";] (A "-no-alias-deps");;
 
@@ -1012,6 +1023,16 @@ begin
   ["compile"; "link"] |> List.iter (fun phase ->
   ["cc"; "ccopt"; "cclib"] |> List.iter (fun flag ->
     ccflag ~lang ~phase ~flag)))
+end;;
+
+begin
+  let ocamlmklib_pflag ?doc_param flag =
+    pflag ["ocamlmklib"] flag ?doc_param
+      (fun param -> S [A ("-"^flag); A param]) in
+  ocamlmklib_pflag "cclib";
+  ocamlmklib_pflag "ccopt";
+  ocamlmklib_pflag "rpath";
+  ocamlmklib_pflag "ldopt";
 end;;
 
 end in ()

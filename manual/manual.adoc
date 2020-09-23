@@ -309,6 +309,8 @@ Also note that the quoting, `-tag "syntax(camlp4o)"` instead of `-tag syntax(c
 
 If you use `-ppx` preprocessors, you can use the parametrized tag `ppx(...)` (`-tag "ppx(...)"`) to specify the preprocessor to use.
 
+Since ocamlbuild NEXT_RELASE, the tags `ppopt(option)` and `ppxopt(package,option)` are also supported -- if you have set `-use-ocamlfind`.
+
 // TODO: Improve title.
 [[Sec_Archives_documentation]]
 === Archives, documentation
@@ -539,7 +541,7 @@ These targets will call the documentation generator `ocamldoc`.
 | `.docdir/man`
 | As `.docdir/index.html` above, but builds the documentation in `man` format.
 
-| `.docdir/bar.tex` or `.docdic/bar.ltx`
+| `.docdir/bar.tex` or `.docdir/bar.ltx`
 | Building the target `foo.docdir/bar.tex` will build the documentation for the modules listed in `foo.odocl`, as a LaTeX file named `foo.docdir/bar.tex`.
  The basename `bar` is not important, but it is the extension `.tex` or `.ltx` that indicates to OCamlbuild that ocamldoc should be asked for a LaTeX output.
 
@@ -704,7 +706,7 @@ Feel free to look at the implementation and link:../CONTRIBUTING.adoc[send a pat
 * `no_alias_deps`
 * `no_float_const_prop`
 * `noassert`
-* `noautolink` (since NEXT_RELEASE)
+* `noautolink` (since 0.11.0)
 * `nolabels`
 * `nopervasives`
 * `nostdlib` (since 0.9.4)
@@ -749,6 +751,11 @@ Feel free to look at the implementation and link:../CONTRIBUTING.adoc[send a pat
 * `no_unbox_free_vars_of_closures`
 * `no_unbox_specialized_args`
 
+===== Compiler tags for the AFL instrumentation mode (4.05 and newer)
+
+* `afl_instrument` (since 0.12.0)
+* `afl_inst_ratio` (since 0.12.0)
+
 ===== `ocamlfind` tags
 
 * `package(pkgname)`
@@ -756,6 +763,8 @@ Feel free to look at the implementation and link:../CONTRIBUTING.adoc[send a pat
 * `dontlink(pkgname)`
 * `predicate(foo)`
 * `syntax(bar)`
+* `ppopt(camlp4-option)` (since 0.13.0)
+* `ppxopt(package,option)` (since 0.13.0)
 
 ===== `ocamllex` tags
 
@@ -1053,7 +1062,7 @@ We warmly welcome patches to improve this aspect of `ocamlbuild` -- link:../CONT
 
 You can influence the `myocamlbuild.ml` compilation-and-launch process in several ways:
 
-* The `no-plugin` option allows to ignore the `myocamlbuild.ml` file and just run the stock `ocamlbuild` executable on your project.
+* The `-no-plugin` option allows to ignore the `myocamlbuild.ml` file and just run the stock `ocamlbuild` executable on your project.
  This means that fancy new rules introduced by `myocamlbuild.ml` will not be available.
 * The `-just-plugin` option instructs OCamlbuild to stop compilation after having built the plugin.
 It also guarantees that OCamlbuild will try to compile the plugin, which it may not always do, for example when you only ask for cleaning or documentation.

@@ -23,8 +23,76 @@ NEXT_RELEASE:
 changes from dev branch of ocamlbuild:
 --------------------------------------
 
-- #253: only run native tests if ocamlopt is available.
-  (Ximin Luo, review by whitequark and Gabriel Scherer)
+
+
+0.14.0 (23 Feb 2019):
+---------------------
+
+Compared to the previous released version (0.12.0), OCamlbuild 0.14.0
+contains new features (`ppopt(..)` and `ppxopt(...)` flags, ocamlbuild
+options) and support for OCaml 4.08+dev.
+
+* Revert the change to "pack" handling from the never-released 0.13
+  (#272), which turns out to break compatibility with too many
+  projects. At this point in the lifetime of ocamlbuild usage, it's
+  more important to keep building existing projects than to improve
+  the build system for new projects -- of course the latter is also
+  nice, but not when it endangers compatibility.  (Gabriel Scherer)
+
+0.13.1 (15 Sep 2018):
+---------------------
+
+This bugfix release attempts to fix a regression due to the change in
+"pack" handling in 0.13.0. It is not clear whether the regression
+should be considered a bug in 0.13.0 or an incorrect _tags file in the
+broken package, but we prefer to fix it anyway.
+
+- #287: change "linkpkg" flag definition to not apply in the
+  new "pack"++"link" mode introduced by #272. This avoids
+  a build failure in webidl.1.4 and possibly other packages
+  using "true: linkpkg".
+  (Gabriel Scherer, report by Andreas Hauptmann)
+
+0.13.0 (8 Sep 2018):
+--------------------
+
+OCamlbuild 0.13.0 contains new features (`ppopt(..)` and `ppxopt(...)` flags,
+ocamlbuild options) and bugfixes (to pack production, for 4.08+dev support).
+
+- #45, #190: add ppopt(arg) and ppxopt(package,arg) when -use-ocamlfind
+  (Gabriel Scherer, review by whitequark,
+   request by Gabriel Scherer, Gabriel Radanne and Pavel Argentov)
+
+- #268, #269: add flag support for some ocamlmklib options:
+  custom, debug, failsafe, linkall, ccopt(..), cclib(..), rpath(..), ldopt(..)
+  (Gabriel Scherer, report by Hannes Mehnert, review by whitequark)
+
+* #272: add the "link" tag to "pack" actions
+  Instead of a separate category, "pack" is now another form of linking
+  like "program", "library", "toplevel" and "output_obj". This fixes
+  the issue that package(...) tags where not passed at pack-production
+  time, spotted by Jérémie Dimino. More generally, this extends
+  the meaning of all "link" flags to "pack", which seems to be the correct
+  behavior for all the rules we inspected.
+  (Gabriel Scherer, original issue diagnosis by Jérémie Dimino)
+
+- #278: typo fixes in the manual
+  (Xinzhe Yang)
+
+- #282: fix compilation with trunk OCaml (4.08+dev)
+  (Xavier Clerc and Nandor Licker)
+
+0.12.0 (11 Nov 2017):
+---------------------
+
+OCamlbuild 0.12.0 is a maintenance release containing mostly bugfixes
+and a few user-contributed features.
+
+- #227: install signatures.{mli,cmi,cmti} to help documentation tools
+  (Daniel Bünzli and Gabriel Scherer)
+
+- #232: fix Windows install rules
+  (David Allsopp)
 
 - #234: add "afl_instrument" and "afl_inst_ratio" flags for corresponding
   ocamlopt options.
@@ -34,7 +102,10 @@ changes from dev branch of ocamlbuild:
   as tweaking the C linker can be required for pure-OCaml projects -- see #236
   (Gabriel Scherer, report by Nathan Rebours)
 
-- #256, #258: -keep-docs and -keep-locs not passed when using -pack
+- #253: only run native tests if ocamlopt is available.
+  (Ximin Luo, review by whitequark and Gabriel Scherer)
+
+- #256, #258: pass -keep-docs and -keep-locs when using -pack
   (Gabriel Scherer, report by Vincent Jacques)
 
 - #257, #259: add `_opam` to the list of directories ignored by default;
