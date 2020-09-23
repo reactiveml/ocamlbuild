@@ -284,7 +284,7 @@ install-lib-basics:
 	$(CP) META $(INSTALL_SIGNATURES) $(INSTALL_LIBDIR)/rmlbuild
 
 install-lib-basics-opam:
-	echo '  "rmlbuild.opam" {"opam"}' >> rmlbuild.install
+	echo '  "ocamlbuild.opam" {"opam"}' >> rmlbuild.install
 	echo '  "META"' >> rmlbuild.install
 	for lib in $(INSTALL_SIGNATURES); do \
 	  echo "  \"$$lib\" {\"$$(basename $$lib)\"}" >> rmlbuild.install; \

@@ -11,18 +11,10 @@ We also use PR#$N for pull requests.
 Changes breaking compatibility are marked with a "* " bullet instead
 of the usual "- ".
 
-NEXT_RELEASE:
-------------
-
-
-0.11.0-00 (10 Oct 2017):
+0.14.0-00 (23 Sep 2020):
 ------------------------
 
-- first independent release of rmlbuild.
-
-changes from dev branch of ocamlbuild:
---------------------------------------
-
+- Update of rmlbuild
 
 
 0.14.0 (23 Feb 2019):
@@ -102,6 +94,7 @@ and a few user-contributed features.
   as tweaking the C linker can be required for pure-OCaml projects -- see #236
   (Gabriel Scherer, report by Nathan Rebours)
 
+
 - #253: only run native tests if ocamlopt is available.
   (Ximin Luo, review by whitequark and Gabriel Scherer)
 
@@ -111,6 +104,11 @@ and a few user-contributed features.
 - #257, #259: add `_opam` to the list of directories ignored by default;
   it is used for package-local opam switches
   (Gabriel Scherer, request by Edwin Török)
+
+0.11.0-00 (10 Oct 2017):
+------------------------
+
+- first independent release of rmlbuild.
 
 0.11.0 (5 Mar 2017):
 --------------------
